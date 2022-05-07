@@ -1,0 +1,20 @@
+Instructions on how to create lambda using AWS CLI
+
+1. Create Execution Role
+
+2. Create index/main .py file with your code inside
+
+3. Zip the contents of the index/main.py file to a zip folder called lambda.zip
+Command: tar.exe -a -c -f lambda.zip index.py
+
+4. Create Lambda Execution Role 
+Command: aws iam create-role --role-name lambda-function-execution-role --assume-role-policy-document file://executionrole.json
+
+5. Attach Basic Execution Role Policy
+Command: aws iam attach-role-policy --role-name lambda-function-execution-role --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+6. Create Actual Lambda Function
+Command: aws lambda create-function --function-name lambdacreationcli --runtime python3.9 --zip-file fileb://lambda.zip --handler index.lambda_handler --role "arn:aws:iam::139988404192:role/lambda-function-execution-role"
+
+7. Add Function URL
+Command: aws lambda create-function-url-config --function-name lambdacreationcli --auth-type NONE
